@@ -42,3 +42,38 @@ Solutions to reduce human attack vectors are to work on mitigation and detection
 - Antivirus or EDR solutions
 - Security awareness trainings
 - "Trust but verify" - not just trust something but also take action to confirm the information and its accuracy
+
+### System Attack Vectors
+Systems can be attack vectors as well if not configures properly. This system can be anything: laptops, servers, websites. These systems could be breach through various means: misconfigurations like weak passwords, vulnerabilities, malicious USB, supply chain attack e.g: Solar Winds  
+Vulnerabilities need to be discovered to address them. If an attacker discovers a vulnerability before anyone else and exploits it, then it is called a zero-day attack. Vulnerabilities once discover get a Common Vulnerabilities and Exposures (CVE) number. To address a vulnerability/CVE is to patch (an update fix) the software provided by the vendor.  
+While waiting for a patch by the vendor you can mitigate risk by:
+-  Restricting system access to only trusted IPs
+-  Apply temporary measures provided by the vendor
+-  Block known attack patterns with a IPS or WAF
+  
+Misconfigurations on the otherhand happens not because something is an error in the system but because it was badly set up. These include weak passwords, improprly set up security controls.  
+Mitigating misconfigurations:
+- Penetration Testing, using ethical hackers
+- Vulnerability scans: running tools periodically which detect weak passwords or out of date software
+- Configuration benchmarks and audits
+
+## SOC Team Internals
+Logs get created by systems constantly and then get fed into security tools like a SIEM, which can get millions of logs daily. Alert on the other hand are created when a specific event or sequence of events occur, this way highlighting logs that need review and thus help SOC teams not requiring them to manually look through every single log.  
+*Alert Management Platforms:*  
+- SIEM (Security Information and Event Management) System - Splunk ES, Elastic (ELK)
+- EDR/NDR (Endpoint/Network Detection and Response - Microsoft Defender, CrowdStrike
+- SOAR (Security Orchestration, Automation and Response) System - Splunk SOAR, Cortex SOAR
+- ITSM (Information Technology Service Management) - Jire, TheHive
+  
+**Alert Properties**
+Alerts can have various properties but they tend to share the main ones. There are:  
+- Time - alert creation time
+- Name - Summary of what happened, based on rule name that got triggered
+- Severity - shows how urgent the alert is, set by engineers through the rules initially but can be altered by analysts
+- Status - shows if it is WIP or done
+- Verdict - aka classification, e.g.:Positive, or false positive
+- Assignee - who got assigned to look at it
+- Description - explanation of what the alert was about
+- Fields - comments and values of why the alert got triggered
+
+Best practices: - start with critical alerts and work your way down with severity, after severity, go by time starting with the oldest one
