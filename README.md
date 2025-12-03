@@ -59,13 +59,13 @@ Mitigating misconfigurations:
 
 ## SOC Team Internals
 Logs get created by systems constantly and then get fed into security tools like a SIEM, which can get millions of logs daily. Alert on the other hand are created when a specific event or sequence of events occur, this way highlighting logs that need review and thus help SOC teams not requiring them to manually look through every single log.  
-*Alert Management Platforms:*  
+**Alert Management Platforms:**  
 - SIEM (Security Information and Event Management) System - Splunk ES, Elastic (ELK)
 - EDR/NDR (Endpoint/Network Detection and Response - Microsoft Defender, CrowdStrike
 - SOAR (Security Orchestration, Automation and Response) System - Splunk SOAR, Cortex SOAR
 - ITSM (Information Technology Service Management) - Jire, TheHive
   
-**Alert Properties**
+**Alert Properties**  
 Alerts can have various properties but they tend to share the main ones. There are:  
 - Time - alert creation time
 - Name - Summary of what happened, based on rule name that got triggered
@@ -77,3 +77,36 @@ Alerts can have various properties but they tend to share the main ones. There a
 - Fields - comments and values of why the alert got triggered
 
 Best practices: - start with critical alerts and work your way down with severity, after severity, go by time starting with the oldest one
+
+**Alert Handling**  
+- Reporting: Before closing down or escalating an alert, documentation might be needed. Writing down the investigation in detail and all relvant evidence.
+- Escalation: True Positives if needed based on procedures can be escalated to L2 Analysts. In this case reports are useful to get an initial idea of what the analyst is dealing with.
+- Communication: Communication might be needed with other departments to cross check details and events
+  
+**Alert Reporting**  
+*Puprose:*
+- Provide context for escalation - makes it easy to understand by others and saves time for L2 analysts to act
+- Save findings for the records - logs are deleted after a while but alerts are kept indefinitely so it can be revisited anytime and understood if everything is written inside
+- Improve investigation skills - boost skills and your understanding
+  
+*Report Format:*  
+- Who? - which user logs in /runs command /downloaded a file
+- What? - action or event sequence was performed
+- When? - when did the suspicious activity start and end
+- Where? - which device, IP or website was involved in the alert
+- Why? - the reasoning for you final verdict (why true or false positive?, very important)
+
+**Alert Escalation**  
+*Recommended in case:*
+- Alert is indicator of a major attack, requiring deeper investigation or DFIR
+- Remediation actions are needed like malware removal, host isolation, or password resets
+- Communication with customers, law enforcement, management or partners is required
+- If you don't fuly understand the alert and need help from a senior analyst
+
+**Resources which can help SOC Analysts**  
+- *Identity Inventory:* A catalouge of company employees (users), services (machines), and their details like contacts and roles in the company. Sources of identities can be Active Directory, HR Systems, Cloud alternatives of AD (e.g.:SSO providers like Okta or Google Workspace), or other custom solutions  
+- *Asset Inventory:* list of all computing resources within the company. Sources of assets can be Acctive Directory, SIEM or EDR, MDM(Mobile Device Management) Solution or once again custom  
+- *Network Diagrams:* a visual schema of existing locations, subnets and their connections. Helps to place alerts on the network and see what can be affected or targeted.  
+- *Workbooks:* aka playbook, runbook or workflow. It is a document with a structured plan with steps that needed to be followed to investigate and tackle threats efficiently.
+
+
