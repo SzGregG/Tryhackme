@@ -180,3 +180,17 @@ Security Orchestration, Automation and Response (SOAR) is a tool that combines a
 - *Orchestration:* Traditionally to analyse an alert, analysts had to swithc between different tools, slowing down processes this way. SOAR combines these tools together into one interface. It also has predefined playbooks which have a step-by-step plan that the SOAR would follow to investigate an alert. With their being different playbooks for specific alerts and multiple options based on results of invastigations.
 - *Automation:* The playbooks mentioned under Orchestration can be automated and followed by the SOAR to carry out the investigation. Significantly reducing the workload and the processing time of alerts for analysts.
 - *Response:* The automation enables the SOAR to respond to attacks by following the playbook, carrying out the action defined in the playbook (e.g.: disable user in the IAM) and open a ticket and put the necessary information in it.
+
+## Network Traffic Analysis (NTA)
+NTA is the process of capturing, inspecting and analysing data that travels on a network. It is used to monitor network performance, check on deviations and issues, inspect content of suspicous communication. It helps to detect abnormal or malicious activity, reconstruct how an attack unfolded and verify alerts.
+  
+## Network Security Monitoring
+A network is an organisaed structure where network assets are able to communicate and share resources and able to connect with each other and the world via internet.
+
+**Network Components**
+- Endpoints/Workstattions
+- File & Database Servers -  organisation's most important asset the data is here
+- Application Servers (Web, Email, VPN, etc.)
+- Active Directory / Authentication Server -  Manages users, groups and computers and their what they can access
+- Routers & Switches
+- Firewall / Perimeter Devices
