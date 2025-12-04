@@ -123,3 +123,20 @@ Best practices: - start with critical alerts and work your way down with severit
 - *Mean Time to Respond (MTTR):* Average time taken by SOC to actually stop the breach from spreading
 
 ## SOC Solutions
+### EDR
+Endpoint Detection and Response is a host-only security solution that monitors, detects and responds to threats at endpoints. It can tackle advanced threats and no matter where the endpoint is, local or remote. EDR can detect threats that an Antivirus might miss.  
+**Endpoint Features**  
+- *Visibility:* EDRs provide a great range of visibility. Collecting data from data which includes, process modifications, registry modifications, network connections, file and folder modifications, user actions etc. Historcal data and process trees as well.
+- *Detection:* Uses a combination of signiture and behaviour based detections alongside machine learning capabilities. It can also detect fileless malware in memory. It is possible to assign custom IOC(indicators of comprimise) to be detected
+- *Response:* Analysts can respond to threats easily through the central EDR console, managing different actions like isolate endpoint, terminate processes, connect to host and excute actions remotely etc.
+
+**EDR Components**
+- *Agents:* agents are what is deployed on endpoints and report back to the central EDR console. They can be also referred to as sensors. They monitor all activities and any data (aka. **telemetry**) collected about the activities is sent to the EDR Console.
+- *EDR Console:* it is where all the data sent from various EDR agents is linked together and analysed with the use of logical rules and machine learning algorithms (MLAs). The data collected is then compared against threat intelligence data as well. If anything is detected the console creates an alert, also assigning a severity to it.
+
+**EDR Detection Capabilities**
+- *Behavioral Detection:* not just matches signitures but looks at the behaviour of files
+- *Anomaly Detection:* EDR is aware of the standard behaviour of endpoints. Activity which mismatches the standard will be flagged. Can cause false positives but with the full contect that EDR provides analysts can deal with it quickly. In case of an malicious activity, the endpoint's behaviour always deviates from standard.
+- *IOC matching:* Indicators of Compromise are known by EDRs as threat intelligence is integrated into them. If any activity matches that of an IOC the EDR flags it
+- *MITRE ATT&CK Mapping:* EDR not only flags malicious activity but it also highlights the stage that the activity was at on the MITRE Tactics and Techniques map
+- *MLAs:* 
