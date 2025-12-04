@@ -59,6 +59,7 @@ Mitigating misconfigurations:
 
 ## SOC Team Internals
 Logs get created by systems constantly and then get fed into security tools like a SIEM, which can get millions of logs daily. Alert on the other hand are created when a specific event or sequence of events occur, this way highlighting logs that need review and thus help SOC teams not requiring them to manually look through every single log.  
+  
 **Alert Management Platforms:**  
 - SIEM (Security Information and Event Management) System - Splunk ES, Elastic (ELK)
 - EDR/NDR (Endpoint/Network Detection and Response - Microsoft Defender, CrowdStrike
@@ -124,7 +125,8 @@ Best practices: - start with critical alerts and work your way down with severit
 
 ## SOC Solutions
 ### EDR
-Endpoint Detection and Response is a host-only security solution that monitors, detects and responds to threats at endpoints. It can tackle advanced threats and no matter where the endpoint is, local or remote. EDR can detect threats that an Antivirus might miss.  
+Endpoint Detection and Response is a host-only security solution that monitors, detects and responds to threats at endpoints. It can tackle advanced threats and no matter where the endpoint is, local or remote. EDR can detect threats that an Antivirus might miss.
+  
 **Endpoint Features**  
 - *Visibility:* EDRs provide a great range of visibility. Collecting data from data which includes, process modifications, registry modifications, network connections, file and folder modifications, user actions etc. Historcal data and process trees as well.
 - *Detection:* Uses a combination of signiture and behaviour based detections alongside machine learning capabilities. It can also detect fileless malware in memory. It is possible to assign custom IOC(indicators of comprimise) to be detected
@@ -139,4 +141,42 @@ Endpoint Detection and Response is a host-only security solution that monitors, 
 - *Anomaly Detection:* EDR is aware of the standard behaviour of endpoints. Activity which mismatches the standard will be flagged. Can cause false positives but with the full contect that EDR provides analysts can deal with it quickly. In case of an malicious activity, the endpoint's behaviour always deviates from standard.
 - *IOC matching:* Indicators of Compromise are known by EDRs as threat intelligence is integrated into them. If any activity matches that of an IOC the EDR flags it
 - *MITRE ATT&CK Mapping:* EDR not only flags malicious activity but it also highlights the stage that the activity was at on the MITRE Tactics and Techniques map
-- *MLAs:* 
+- *MLAs:* Advanced threats try to pose normal and evade defenses. MLA models trained with large datasets of normal and malicious behaviour can filter out and detect even complex attacks and patterns
+
+**EDR Response Capabilities**
+Response can be both automated or manual. Including:
+- *Isolate Host:* Can isolate an endpoint from the network to contain attacks. Preventing lateral movement
+- *Terminate Process:* Can be done if isolation is not necessary, especially if the endpoint is needed for key business operations and isolation would be more harmful. Have to be careful to not terminate legitimate processes
+- *Quarantine:* Can quarantine malicious files that enter an endpoint. Moving it to a separate location where it cannot be executed. From here it can be reviewed to either restore or remove it.
+- *Remote Access:* Analysts are able to access the shell of all endpoints through the EDR. Required when the automated response of the EDR is not enough, and more specific or custom actions or data are needed.
+- *Artefacts Collection:* Analysts can extract data remotely from endpoint for forensic investigation (e.g.: Memory Dump, Event Logs, Specific Folder Contents, Registry Hives)
+
+### SIEM
+Security Information and Event Management systems are a key security solution that collects logs from all the different sources, standardises, and finally correlates them for analysts and detects malicious activity using rules. Log sources can be divided into 2 types:  
+- **Host-Centric Log Sources:**
+  - User accessing a file
+  - User attempting to authenticate something
+  - Process execution
+  - Process adding/editing/deleting a registry key value
+  - Powershell Execution
+- **Network-Centric Log Sources:**
+  - SSH connection
+  - A file being accessed through a File Transfer Protocol (FTP)
+  - Web traffic
+  - User accessing the company's resources through Virtual Private Network (VPN)
+  - Network file sharing activity
+  
+**Features of SIEMS**
+- *Centralised log collection* - Collects all the logs generated on all the systems (e.g.: endpoints, servers, firewalls etc.) in one place
+- *Normalisation of Logs* - Raw logs from different sources are in different formats. SIEMs standardises logs by breaking them down into different fields to make them easier to understand and go through
+- *Correlation of Logs* - Finds connection between different individual logs from different sources to give a bigger picture and see patterns
+- *Real-time Alerting* - SIEMs run all the activity it processes against rules determined either by default or custom by the SOC team. If one if the rules are triggered then the analysts are alerted straight away
+- *Dashboard and Reporting* - Dashboard is where all the data is presented to the analysts after it was standardised. From here all the information can be reviewed and analysed for an investigation.
+
+### SOAR
+Security Orchestration, Automation and Response (SOAR) is a tool that combines all other tools. SIEM, EDR, Firewalls and other tools are put into one unifiied interface for analysts to use without having to switch. In addition it also has ticketing and case management features, with which analysts can document, follow and remedy incidents. SOAR mitigates or even eliminates issues for SOC teams such as alert fatigue, manual processes, disconnected tools and lack of analysts.
+  
+**SOAR Capabilities**
+- *Orchestration:* Traditionally to analyse an alert, analysts had to swithc between different tools, slowing down processes this way. SOAR combines these tools together into one interface. It also has predefined playbooks which have a step-by-step plan that the SOAR would follow to investigate an alert. With their being different playbooks for specific alerts and multiple options based on results of invastigations.
+- *Automation:* The playbooks mentioned under Orchestration can be automated and followed by the SOAR to carry out the investigation. Significantly reducing the workload and the processing time of alerts for analysts.
+- *Response:* The automation enables the SOAR to respond to attacks by following the playbook, carrying out the action defined in the playbook (e.g.: disable user in the IAM) and open a ticket and put the necessary information in it.
