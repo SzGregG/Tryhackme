@@ -259,4 +259,14 @@ Once the attackers have mapped out the assets they will perform the following sc
 - *UDP Scan:* Similar to TCP, the atacker sends a UDP packet. There can be 3 scenarios. The host will either send back an ICMP "port unreachable" reply, which would mean the machine is only but the port is closed. Second scenario can be that there won't be any reponse, in this case the scanner will flag the port open, but this migth not be neccesarily the case. Third case, rarely there might be a reply UDP packet back, meaning the port is open. UDP scan is slow and unrealiable though
 
 ### Data Exfiltration Detection
+Data exfiltration is the unauthorised transfer of data from an organisation to an external destination controlled by an attacker. It can be either intentional by an insider or through malware or other means by an external actor.  
+
+**Reasons why data exfiltration is done:**
+- *Financial Gain*
+- *Espionage*
+- *Ransomeware & Extortion*
+- *Disruption & Sabotage*
+- *Persistence & Reconnaissance:* Stolen data helps attackers understand the environment/network for future attacks
+
+**Techniques & Indicators:**
 
