@@ -269,4 +269,20 @@ Data exfiltration is the unauthorised transfer of data from an organisation to a
 - *Persistence & Reconnaissance:* Stolen data helps attackers understand the environment/network for future attacks
 
 **Techniques & Indicators:**
+- *Network-based:* e.g.: HTTP/S uploads, S/FTP, DNS tunneling, custom TCP/UDP. Look for large POST requests or cloud uploads in proxy/web gateway logs, spikes in outflowing network traffic, DNS logs (long hostnames, TXT queires)
+- *Host-based:* e.g.: Powershell/Invoke-WebRequest, curl/wget, archive creation (zip/rar), use of removable media. Look at EDR (Process Create, File Create and Network connection events), Windows security (4663/4656 object access)
+- *Cloud Exfiltration:* e.g.: Drive/Sharepoint external sharing. Look for cloud storage activity and access logs, unusual service-account or IP activity
+- *Covert & encoding:* e.g.: DNS tunneling, base64 or other encoding, steganography (placing data into images or audio), splitting files into small requests. Look through DNS logs, proxy logs, many small POST requests
+- *Insider & Collaboration tools:* e.g.: Slack/Teams/Dropbox/Google Drive uploads or sharing to external users, compromised employee accounts. Look at audit logs (share events, file downloads) and mail logs
+- *General IoAs:* e.g.: Large outbound volume to external IPs, suspicious processes and command lines, many file read events with an outbound connection after. Look at and compare DNS, EDR, Proxy, Firewall and mail server logs.
 
+**DNS Tunneling**
+It exploits the fact that the  DNS protocol is typically allowed to pass through networks. Attackers use this to smiggle bytes encoded inside the DNS queries/responses without firewalls or web proxies noticing, sometimes even unfiltered. It is a good disguise as every host usually does DNS lookups and they are frequent making them a perfect tool for attackers to blend in their activity.  
+
+Indicators of DNS Tunneling:
+- Many DNS queries sent to a single external domain
+- Long subdomain labels or extra lognn query names (60-100+ characters)
+- Unusual response behaviour: No responses to DNS queries, or large TCP/UDP fragments for DNS
+- Queries at regular intervals (beaconing likely)
+
+**
