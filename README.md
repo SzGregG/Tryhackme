@@ -285,4 +285,54 @@ Indicators of DNS Tunneling:
 - Unusual response behaviour: No responses to DNS queries, or large TCP/UDP fragments for DNS
 - Queries at regular intervals (beaconing likely)
 
-**
+### Man-in-the-Middle (MITM) Detection
+MITM attacks happen when an attakcer places themselves between two points of a communication attempting to intercept, modify or redirect the traffic between the 2 points. Attackers can use it to steal sensitive data or even to inject malicious content. If weak encryption or authentication is used then machines and organisations are particularly vulnerable to this attack.
+  
+**Steps of MITM Attacks:**
+- *Step 1:* Interception - The attacker places themselves into the path of communication, often by exploiting weaknesses in network protocolsm or by using ARP, DNS, or IP spoofing
+- *Step 2:* Manipulation/Decryption:* The attacker tries to access or modify the communication, decrypting encoded data or injecting harmful content e.g.: alterd website responses or fake login forms
+
+**Common MITM Attacks:**
+- *Packet sniffing:* capturing unencrypted data packets sent over a network, often on open Wifi
+- *Session hijacking:* Stealing and using session tokens to impersonate users
+- *SSL Stripping:* Downgrading HTTPS connections to HTTP (which is not secure) to steal and alter data transfer
+- *DNS spoofing:* Redirecting website traffic to fraudulent domains by manipulating DNS responses
+- *IP spoofing:* Crafting malicious IP packtes that appear to come from a trusted system
+- *Rouge wifi-access poing:* Creating fake networks to intercept user traffic
+
+MITM attacks are widely used in the Cyber Kill Chain's Exploitation and Installation phases in their attacks. For Exploitation, attackes exploit the limitations and natural trust given to network protocols. By manipulating protocols like DNS or ARP, attackers can intercept communication channels, damaging integrity and allows eavesdropping and manipulation. For the Installation phase, once the attacker already places themselves in the middle of communication channels, they can use it to control the data stream flowing through it and modify it to deliver malicious payloads.  
+
+**Detecting ARP Spoofing**
+ARP (Address Resolution Protocol) spoofing utilises the ARP protocol which maps IP addresses to MAC addresses on a local network. In ARP spoofing, the attacker sends fake ARP replies to deceive devices into thinking that the attacker's MAC address in the default gateway. This allows the attacker to intercept, modify or redirect all the traffic.  
+
+Indicators of ARP Spoofing:  
+- *Duplicate MAC-to-IP Mappings:* Multiple MAC addresses caliming the same IP address. Signs of impersonation
+- *Unsolicitated APR Replies:* High number of ARP replies, without matching requests
+- *Abnormal ARP Traffic Volume:* Large number of ARP packets in short intervals
+- *Unusual Traffic Routing:* Trraffic rerouted through the attaccker's MAC
+- *Gateway Redirection Patterns:* Multiple destination MACs to the same gateway IP
+- *ARP Probe/ Reply Loops:* Many ARP requests with the "Who has x? Tell y" patterns
+
+**Detecting DNS Spoofing**
+DNS Spoofing aka. DNS Cache Poisoning is when the attacker corrupts the DNS and manipulates it to give the wrong IP address to users when they search for a domain. Usually the victim would try to visit a legitimate website, the attacker who is on the local network already can intercept this the DNS query from the victim. Once intercepted the attacker sends a fake DNS reply with the attacker's or another malicious IP address instead that of the bank's. From here the victim machine receives it in their DNS cache and when the victim tries to connect to the bank they instead directly connect to the attacker's server hosting a replica of the desired site.  
+
+Indicators of DNS Spoofing:  
+- *Multiple DNS responses to the same query* a legitimate resolver and a forged second response source
+- *DNS response from an unexcpected source* - DNS reply arrives from an IP address not associated to the configured resolver
+- *Suspiciously short TTL (Time-to-Live) values* - attackers use low TTLs (1-30), keep forged entries short lived
+- *Unsolicitated DNS responses* - dns reply appears without prior request
+
+**Detecting SSL Stripping**
+SSL (Secure Sockets Layer) stripping is a technique where an attacker intercepts and modifies traffic to prevent TLS (Transport Layer Security) encryption between a client and a server.  
+  
+Steps of SSL stripping:  
+- 1 The victim initiates a HTTPS request to a website
+- 2 The attacker intercept the request using ARP spoofing or a rouge access point
+- 3 The attacker connects to the website over HTTp but relays the response to the victim through HTTP
+- 4 The victim unknowingly interacts over HTTp, exposing data in plaintext which the attacker can see
+
+Indicators of SSL stripping:  
+- Initial request vs response: Request is in HTTps (port 443), but the response comes back in HTTP (port 80)
+- Redirects /Link Reqriting: Redirects that persistently direct HTTPS request to an HTTP resource
+- Certificate Errors: the intitial TLS/SSL handshake might fail or display a self-signed certificate
+
