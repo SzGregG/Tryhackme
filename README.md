@@ -395,4 +395,18 @@ They can help detect maliciosu file uploads with their signature based detection
 ### Detecting Web Attacks
 
 **Client Side Attacks**  
-They target using weaknesses in the user's behaviour or on their device. 
+They target using weaknesses in the user's behaviour or on their device. They aim to exploit browser vulnerabilities or trick the user into doing something unsafe. SOC team's tools have little to no visibility on what happens in user's browser and client side attacks don't tend to generate suspicious HTTP requests. Requires extra browser-side security controls or endpoint monitoring to detect them.
+
+Common Client side attacks:
+- *Cross-Site Scripting (XSS):* A malicious script is run on a trusted website and executed in the user's browser. When visitors load the page the script runs inside their browser, enabling attackers to steal cookies or session data
+- *Cross-Site Request Forgery (CSRF): The browser is tricked into sending unauthorised requests on behalf of the trsuted user
+- *Clickjacking:* Attackers overlay invisibale elements on top of legitimate content, making users beleive they are interacting with something safe
+
+**Server Side Attacks**  
+These attacks depend on finding vulnerabilities in the web server, the web app's code or any other infrastructure which supports the web app. In this case there is more trail left which defenders can follow as the servers logs every web request sent to a web app. The requests also travel accross the network so network traffic can highlight suspicious activity.   
+
+Common Server side attacks:
+- *Brute-force:* repeated attempt of different usernames and passwords to gain access to an account
+- *SQL Injection:* attacks the data base. Happens when applications accept unchecked and sanitised user input in field where attackers can inject SQL scripts allowing them to access and modify data in the database.
+- *Command Injection:* Where as SQL injection was exploiting data bases, this targets servers
+
