@@ -410,3 +410,6 @@ Common Server side attacks:
 - *SQL Injection:* attacks the data base. Happens when applications accept unchecked and sanitised user input in field where attackers can inject SQL scripts allowing them to access and modify data in the database.
 - *Command Injection:* Where as SQL injection was exploiting data bases, this targets servers
 
+### Detecting Web Shells
+Web shells are a technique used by attackers to gain a foothold on target systems. They allow remote access, enabling other malicious actions to be taken. Web shell is a malicious program uploaded to a target web server, which allows the attacker to execute commands remotely. As a tactic they are considered both an initial access and a persisitence tactic and can be used for several stages in the cyber kill chain.  
+In order for the attacker to successfully upload and run a web shell they need to initially find and exploit a file upload vulnerability, misconfiguration or have gain access to the system already. Most common vulnerability is failure to validate the file type/extension/content or destination allowing easy upload of malicious files.
