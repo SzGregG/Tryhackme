@@ -412,4 +412,42 @@ Common Server side attacks:
 
 ### Detecting Web Shells
 Web shells are a technique used by attackers to gain a foothold on target systems. They allow remote access, enabling other malicious actions to be taken. Web shell is a malicious program uploaded to a target web server, which allows the attacker to execute commands remotely. As a tactic they are considered both an initial access and a persisitence tactic and can be used for several stages in the cyber kill chain.  
-In order for the attacker to successfully upload and run a web shell they need to initially find and exploit a file upload vulnerability, misconfiguration or have gain access to the system already. Most common vulnerability is failure to validate the file type/extension/content or destination allowing easy upload of malicious files.
+In order for the attacker to successfully upload and run a web shell they need to initially find and exploit a file upload vulnerability, misconfiguration or have gain access to the system already. Most common vulnerability is failure to validate the file type/extension/content or destination allowing easy upload of malicious files. Webshells utilise legitimate functions and abuse them to gain command execution.  
+
+**Log-based Detection**  
+As web shells conduct their malicious work on web servers, a lot of information can be gathered from the web server's logs.  
+
+Web Shell Indicators:  
+- *Unusual HTTP Methods & Request Patterns:*
+  - Repeated GET requests in quick succession can be probing by attacker (for a valid place to upload a shell)
+  - POST requests to valid upload locations following repeated GET requests
+  - Repeated GET or POST requests to the same file can indicate web shell interaction
+- *Suspicious User-Agents(UAs) & IP Addresses:*
+  - Altered UAs
+  - Outdated UAs
+  - Black listed UAs (e.g.: curl/1.XX.X or wget/1...)
+  - Suspicious IP addresses
+- *Query Strings:*
+  - It is part of the URl that associates alues with a parameter
+  - Queries which are abnormally long or have queries with keywords e.g.: cmd=, exec=
+  - Encoded query strings
+- *Missing Referer:*
+  - A referrer shows the URL the users visited before being linked to the current page
+  - A missing referrer can indicate pontential web shell activity
+  - Valid reasons for missing referrer can include browser blocking it for privacy or the URL was directly accessed
+  
+ **Other Detection Measures**  
+ *File System Analysis:*  
+ Analysing file systems can help to uncover web shells as they needed to be stored somewhere, scanning the web server file system help locate modified files and the web shell payload. Look out for suspicious or random file names, ones with executable extensions like ".php or .jsp".  
+   
+ *Network Traffic Analysis:*  
+ Examining data exchange and packet payloads enables to examine an attacker's behaviour in detail. Indicators are similar to the ones in log analysis:
+ - Unusual HTTP methods & request patterns
+ - Suspicious UAs or IP addresses
+ - Encoded payloads
+ - Malicious Code or commands within request bodies
+ - Unexpected protocols or ports
+ - Unexpected resource usage
+ - Web server spawning command line tools
+
+ 
