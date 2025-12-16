@@ -449,5 +449,50 @@ Web Shell Indicators:
  - Unexpected protocols or ports
  - Unexpected resource usage
  - Web server spawning command line tools
+  
+### Detecting Web DDoS
+**Denial-of-Service (DoS)** attacks aim to disrupt or cease the availability of a website or resource. It is done by the attacker trying to overwhelm the targeted website or app so that others cannot use and access it. DoS attacks can be launch at different components and layers as well not just websites/web apps. DoS attacks are based from a single machine, therefore there are limitations to it due to hardware, network etc.  
+  
+**Distributed Denial-of-Service (DDoS)** attacks are used to circumvent the limitations of a single device and use botnets to carry out much larger attacks. Botnets are devices that have been infected by the attacker and one they are infected they connect and report back to a command-and-control machine through which the attacker can remotely control all the machines infected. When instructed the botnet can direct a huge volume of traffic towards the target web application and overwhelm it much more effectively than a single device could.  
 
- 
+**Types of DoS Attacks:**
+- *Slowloris:* Sending many partial HTTP requests to tie up server resources
+- *HTTP Flood:* Sending a large number of HTTP requests to overwhelm the server
+- *Cache Bypass:* Bypassing CDN (Content Delivery Network) edge servers and forcing the origin server to respond
+- *Oversized Query:* Forcing the server to process large, resource-intesive requests
+- *Login/Form Abuse:* Overloading authentication logic with login attempts or password resets
+- *Faulty Input Validation Abuse:* Exploiting poorly designed input handling 
+
+**Why it is done:**  
+- Causing financial Loss - disrupt service to stop/reduce sales and revenue
+- Extortion - demand payment to stop current attack
+- Hacktivism - disruption for social or political protest
+- Distraction - redirect defenders' attention while other attacks take place
+- Competition -  Disrupt a rival's service to drive up their costs or gain market share
+- Denial of Wallet - Force the victim to rack up service usage costs
+- Reputational Damage - Cause customers to lose trust in a company
+  
+**Log Detection**  
+Web server logs are valuable as they record every web request for web services. Especially as DoS & DDoS attackes rely on sending HTTP requests.  
+
+Indicators of DoS / DDoS:  
+- *High Request Rate* - a page flooded with requests
+- *Odd User-Agents* - attacker spoofs outdate or unusual User-Agent to blen din or bypass filters
+- *Geographic Anomalies* - high volumes of traffic from regions where legitimate traffic is unusual or not supposed to come from
+- *Burst Timestamps* - A sudden spike of requests packed into the same second (sign of automation)
+- *Server Errors* - A sudden surge of server error responses (500-511 codes). Indication of services struggling
+- *Logic Abuse* - Attacker crafts queries that overload the server, forcing it to load large volumes of information and slow down the service for everyone
+
+SIEMs can be a great tool to collect and analyse these logs, by timeframe, IP addresses, response codes etc.  
+
+**Defending against DoS**  
+Application Level Defences:  
+- *Secure Development Practices:* Must have the code built securely already in development. Search fields and fields must validate input so it can't be abused (e.g.: character limits for searches)
+- *Challanges:* Can stop automated traffic by having to complete a challenge before granting access e.g.: CAPTCHA.
+
+Network and Infrastructure Defences:  
+- *Content Delivery Network (CDN):* CDNs help manage server loads by serving content from edge servers closer to the user, reducing latency and less request directly arriving to the original server. They also perform load-balancing sharing and directing traffic between servers.
+- *Web Application Firewall (WAF):* Inspects incoming traffic, allowing or blocking it. Usually integrated into CDNs. Works from rules defined (e.g.: 5 requests per minute limit to a specific page).
+
+## Windows Security Monitoring
+
