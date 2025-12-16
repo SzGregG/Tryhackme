@@ -519,8 +519,8 @@ Common user management event IDs:
 - 4732 - User added to security group
 - 4733 - User removed from security group
   
-**Sysmon Events/Logs**
+**Sysmon Events/Logs**  
 Sysmon is a free external tool that is not installed by default on Windows. It is however a go to key tool to use for advanced monitoring. It has different event ID in comparison to event viewer e.g.: Process creation is 4688 on Event Viewer and 1 on Sysmon. It also provides logs on file and registry changes, dns queries, network connections etc.  
 
-**Powershell**
+**Powershell**  
 Powershell is a powerful tool as with it you can run hundreds of commands without creating new processes which sysmon would not be able to detect. You can however look at the Powershell history file to track previously used commands. It is located in: "C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt". It also survives system reboots unless deleted manually and has a different file for every user. It does not log command outputs though.
