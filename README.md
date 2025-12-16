@@ -477,7 +477,7 @@ Web server logs are valuable as they record every web request for web services. 
 
 Indicators of DoS / DDoS:  
 - *High Request Rate* - a page flooded with requests
-- *Odd User-Agents* - attacker spoofs outdate or unusual User-Agent to blen din or bypass filters
+- *Odd User-Agents* - attacker spoofs outdate or unusual User-Agent to blend in or bypass filters
 - *Geographic Anomalies* - high volumes of traffic from regions where legitimate traffic is unusual or not supposed to come from
 - *Burst Timestamps* - A sudden spike of requests packed into the same second (sign of automation)
 - *Server Errors* - A sudden surge of server error responses (500-511 codes). Indication of services struggling
@@ -496,5 +496,31 @@ Network and Infrastructure Defences:
 
 ## Windows Security Monitoring
 ### Windows Logging for SOC
-Events, such as file creation, starting a program or logging into a laptop are all processed by the OS and logged. For windows they are stored in a binary format at "C:\Windows\System32\winevt\Logs". On Windows logs can be also viewed and read in the Event Viewer. 
+Events, such as file creation, starting a program or logging into a laptop are all processed by the OS and logged. For windows they are stored in a binary format at "C:\Windows\System32\winevt\Logs". On Windows logs can be also viewed and read in the Event Viewer.  
+  
+**Security Events/Logs**
+Security logs are one of the most useful logs for SOC teams. Of these 2 of the most important security logs are:
+- Successful Logon (4624) + Allows to detect suspicious RDP (Remote Desktop Protocol), network logins and identify the attack starting point. - Downside is that there will be lots of logon events per minute on a loaded server
+- Failed Logon (4625) + Allows to detect brute force, password spraying, or vulnerability scanning. - Downside is that it is inconsistent, logs can suggest a different understanding of an event in comparison to what actually happened
+  
+Logon type codes:  
+-  3 Network logon
+-  10 Remote Desktop Logon
+  
+**User Management Events/Logs**  
+Common user management event IDs:  
+- 4720 - User account created
+- 4722 - User account enabled
+- 4738 - User account changed
+- 4725 - User account disabled
+- 4726 - User account deleted
+- 4723 - User account password changed
+- 4724 - User account password reset
+- 4732 - User added to security group
+- 4733 - User removed from security group
+  
+**Sysmon Events/Logs**
+Sysmon is a free external tool that is not installed by default on Windows. It is however a go to key tool to use for advanced monitoring. It has different event ID in comparison to event viewer e.g.: Process creation is 4688 on Event Viewer and 1 on Sysmon. It also provides logs on file and registry changes, dns queries, network connections etc.  
 
+**Powershell**
+Powershell is a powerful tool as with it you can run hundreds of commands without creating new processes which sysmon would not be able to detect. You can however look at the Powershell history file to track previously used commands. It is located in: "C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt". It also survives system reboots unless deleted manually and has a different file for every user. It does not log command outputs though.
