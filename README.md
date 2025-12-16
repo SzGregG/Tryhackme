@@ -495,4 +495,6 @@ Network and Infrastructure Defences:
 - *Web Application Firewall (WAF):* Inspects incoming traffic, allowing or blocking it. Usually integrated into CDNs. Works from rules defined (e.g.: 5 requests per minute limit to a specific page).
 
 ## Windows Security Monitoring
+### Windows Logging for SOC
+Events, such as file creation, starting a program or logging into a laptop are all processed by the OS and logged. For windows they are stored in a binary format at "C:\Windows\System32\winevt\Logs". On Windows logs can be also viewed and read in the Event Viewer. 
 
