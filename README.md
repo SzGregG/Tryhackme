@@ -524,3 +524,5 @@ Sysmon is a free external tool that is not installed by default on Windows. It i
 
 **Powershell**  
 Powershell is a powerful tool as with it you can run hundreds of commands without creating new processes which sysmon would not be able to detect. You can however look at the Powershell history file to track previously used commands. It is located in: "C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt". It also survives system reboots unless deleted manually and has a different file for every user. It does not log command outputs though.
+  
+### Windows Threat Detection
