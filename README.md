@@ -526,3 +526,16 @@ Sysmon is a free external tool that is not installed by default on Windows. It i
 Powershell is a powerful tool as with it you can run hundreds of commands without creating new processes which sysmon would not be able to detect. You can however look at the Powershell history file to track previously used commands. It is located in: "C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt". It also survives system reboots unless deleted manually and has a different file for every user. It does not log command outputs though.
   
 ### Windows Threat Detection
+Remote Desktop Protocol (RDP) is often used by IT admins to manage machines remotely. Having this service exposed and usable is a big risk as well as it can be used by attackers if the target machines also have weak passwords. It is a common way for attakcers to gain initial access.  
+
+**Detecting a RDP Breach**  
+- Look for Network Scan of IPs and Ports
+- RDP Brute force signs in the Security Logs. Failed logins (event ID 4625) with logon types 3 and 10 which are remote logons
+- Also possible to filter for external IPs
+
+Phising is also a very common way for attackers to gain initial access to machines. Windows has lots of executable extension, not just .exe, but also .com, .scr, and .cpl files can be used by attackers and can contain malware. Attackers can sometimes also try to hide their extensions by using double extensions (e.g.: document.pdf.exe) to be potentially missed by a quick glance. To avoid AV detections, attackers can also create LNK shortcut files in which in the Target field they use powershell commands to avoid detection. Such files can be inspected and looked in the Properties and under the Shortcut field in the target value to find any malicious commands included.  
+
+After gaining initail access, attacker usually still need to get their tools downloaded onto the target machine to fully accomplish their goal and peroform specific tasks. This is also referred to as Ingress Tool Transfer technique on MITRE. Common transfer methods are: via Certutil (cerutil.exe), via curl (curl.exe), via powershell (powershell), via GUI (Graphical User Interface). Best way to detect tool transfers is by tracking network connections or DNS requests by suspicious processes. Threat actors sometimes try to hide their transfers by downloading them through legitimate sources such as Github, so analyse to process, the destination and the file downloaded, to determine wether it is harmful or not.
+
+To maintain Persistance attackers create babckdoors. Creation of new accounts can be detected by looking through Security logs in event viewer with event IDs 4720 which logs user creation. By themselves normal users are not that useful for attackers so they tend to increase their permissions and privilages. Secudity event ID 4732 tracks adding users to groups. Sometimes attackers just reset passwords on old accounts, event ID for password resets is 4724.  
+If the attack is started through phising or removable media and not through RDp then to maintain persisitence one of the most common way the malware creates persistance is by creating services or scheduaed tasks. Service creation cmd line: "sc create", Sysmon ID: 1, Security event ID: 4697. Create schedualed task, cmd: schtasks /create, Sysmon ID: 1, Security ID: 4698.
