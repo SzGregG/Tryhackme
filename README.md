@@ -538,4 +538,39 @@ Phising is also a very common way for attackers to gain initial access to machin
 After gaining initail access, attacker usually still need to get their tools downloaded onto the target machine to fully accomplish their goal and peroform specific tasks. This is also referred to as Ingress Tool Transfer technique on MITRE. Common transfer methods are: via Certutil (cerutil.exe), via curl (curl.exe), via powershell (powershell), via GUI (Graphical User Interface). Best way to detect tool transfers is by tracking network connections or DNS requests by suspicious processes. Threat actors sometimes try to hide their transfers by downloading them through legitimate sources such as Github, so analyse to process, the destination and the file downloaded, to determine wether it is harmful or not.
 
 To maintain Persistance attackers create babckdoors. Creation of new accounts can be detected by looking through Security logs in event viewer with event IDs 4720 which logs user creation. By themselves normal users are not that useful for attackers so they tend to increase their permissions and privilages. Secudity event ID 4732 tracks adding users to groups. Sometimes attackers just reset passwords on old accounts, event ID for password resets is 4724.  
-If the attack is started through phising or removable media and not through RDp then to maintain persisitence one of the most common way the malware creates persistance is by creating services or scheduaed tasks. Service creation cmd line: "sc create", Sysmon ID: 1, Security event ID: 4697. Create schedualed task, cmd: schtasks /create, Sysmon ID: 1, Security ID: 4698.
+If the attack is started through phising or removable media and not through RDp then to maintain persisitence one of the most common way the malware creates persistance is by creating services or scheduaed tasks. Service creation cmd line: "sc create", Sysmon ID: 1, Security event ID: 4697. Create schedualed task, cmd: schtasks /create, Sysmon ID: 1, Security ID: 4698.  
+
+## Linux Security Monitoring
+### Linux Logging
+Linux is commonly used on servers and embedded systems, therefore knowing how to investigate alerts on it is important. In Linux everything is logged in plain text, so any text editor can be used to inspect logs and no special tools is required like Event Viewer on Windows. Linux logs are usually are stored in the /var/log folder.  
+To read logs the following commands can be used:  
+- cat /var/log/syslog - shows the whole file
+- cat /var/log/syslog | head - shows the start of the file (if instead you write "tail" it will show the end)
+- cat /var/log/syslog | grep "a word you would search for" - allows to filter logs which contain a specific word or strings
+- grep  -R -E "login | session" /var/log - Looks for the keywords you specify in all the log files (-R is the one that specifies to look through all the files)
+
+**Types of Logs**  
+- /var/log/auth.log (or /secure) -  contains authentication events both logging in and out, usermanagement events, sudo commands and more.
+- /var/log/kern.log - contains kernel messages and errors
+- /var/log/syslog - shows Linux events
+- /var/log/dpkg.log - package manager logs on Debian-based systems
+- /var/log/dnf.log - package manager on RHEL-based systems
+- /var/log/"application" - applications have app specific folders containing logs related to them, under their name folder within /var/log
+- /home/ubuntu/.bash_history - contains all commands run (rarely used)
+
+Linux by default does not log runtime events. Events like process creation, file changes, or network related events. Audit Daemon is a solution for this and ccan be used to monitor runtime events. Alternatives are Sysmon for Linux, Falco, Osquerry, EDRs.  
+
+### Linux Threat Detection
+**Initial Access**  
+A commonly used Initial access method on Linux servers is an exposed SSH, a remote access service used by IT. It is very common to have it enabled for Internet-facing Linux machines. Accessing these is either done through passwords or key-based methods.
+- Risks of Key-based: threat actors accessing a service or source code where private SSH keys are stored
+- Risks of passwords: Weak passwords, exposing an old SSH server to the Internet
+
+To detect SSH brute-force attempts on Linux, just look for SSH logins /attempts in /var/log/auth.log  
+
+Public facing apps or services are also a common initial access point. To detect attacks application logs can be analysed. Establishing process trees, by looking at ppids (parent process IDs) is useful as well to try to establish wether it was a legitimate process or that of malicious intent.  
+
+**Discovery**  
+The process of gaining initial access is usually automated through botnets by attackers. As a result in the discovery phase they usually try to find out what they actually gained access to unless they were specifically targeting something. To figure out where they are they usually use commands e.g.: pwd, ls /, id, whoami, and many others. Usually the most common ones is whoami which is ran straight after gaining access usually. It is rarely used for legitimate reasons so detection rules can be created as a security measure. By configuring auditd or another runtime monitoring tool to log specific commands, potential attacks can be easily identified and analysed.  
+  
+After discovery attacks can be divided into 2 groups. Targeted and hack and forget. Hack and forget attacks are done at scale and for a quick gain usually e.g.: install cryptminer, add to botnet or use asa  proxy. To transfer more tools such as cryptominers onto machines attackers can use a few commands. These are: wget, curl, scp /sftp (ssh). These can be also found with auditd or in specific cases in bash history. in the case of SSh communications however these can be only seen on ssh logins-
